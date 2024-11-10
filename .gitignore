@@ -1,0 +1,7 @@
+*.vscode/
+
+*.drawio*
+*.dtmp
+
+*.out
+*build/
