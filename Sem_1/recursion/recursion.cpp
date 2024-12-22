@@ -25,7 +25,8 @@ int main()
     }
     else
     {
-        std::cout << fibonacci(n) << '\n';
+        unsigned int result = fibonacci(n);
+        std::cout << result << '\n';
     }
     return 0;
 }
