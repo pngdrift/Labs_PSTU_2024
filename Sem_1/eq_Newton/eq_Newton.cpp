@@ -16,6 +16,7 @@ int main()
         xPrev = x;
         // см. формулу нахождения Xi https://i.imgur.com/SiteQJd.png
         x = xPrev - ((pow(0.1 * xPrev, 2) - xPrev * log(xPrev)) / (-log(xPrev) + (xPrev/5) - 1));
+        // std::cout << x << "\n";
     }
     std::cout << "Корень: " << x << "\n";
     return 0;

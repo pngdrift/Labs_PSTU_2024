@@ -17,7 +17,7 @@
 |2.9     |☑️|    2.23    |☑️    |
 |1_switch|☑️|    eq_Half |☑️    |
 |ptr-1   |☑️|  eq_Newton |🚧    |
-|ptr-2   |☑️|eq_Iteration|❌    |
+|ptr-2   |☑️|eq_Iteration|🚧    |
 |ptr-3   |☑️| recursion  |☑️    |
 |ptr-4   |☑️|            |      |
 |ptr-5   |☑️|            |      |
