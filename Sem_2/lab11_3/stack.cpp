@@ -34,35 +34,35 @@ struct CharrStack
     }
 };
 
-CharrStack createStack(int size)
+CharrStack *createStack(int size)
 {
-    CharrStack stack{};
+    CharrStack *stack = new CharrStack();
     char *data;
     for (int i = 0; i < size; ++i)
     {
         data = new char[100];
         std::cout << i + 1 << " element: ";
         std::cin >> data;
-        stack.push(data);
+        stack->push(data);
     }
     return stack;
 }
 
-void showStack(CharrStack stack)
+void showStack(CharrStack *stack)
 {
     std::cout << "Stack:\n";
-    for(StackCharrElem* elem = stack.top; elem != nullptr; elem = elem->next)
+    for (StackCharrElem *elem = stack->top; elem != nullptr; elem = elem->next)
     {
         std::cout << elem->data << "\n";
     }
 }
 
-int findElem(char* e, CharrStack stack)
+int findElem(char *e, CharrStack *stack)
 {
     int i = 0;
-    for(StackCharrElem* elem = stack.top; elem != nullptr; elem = elem->next)
+    for (StackCharrElem *elem = stack->top; elem != nullptr; elem = elem->next)
     {
-        if(std::strcmp(elem->data, e) == 0)
+        if (std::strcmp(elem->data, e) == 0)
         {
             return i;
         }
@@ -71,18 +71,56 @@ int findElem(char* e, CharrStack stack)
     return -1;
 }
 
+void addInStack(CharrStack *stack, int index, char *elem)
+{
+    CharrStack *tmpStack = new CharrStack();
+    for (int i = 0; i < index; ++i)
+    {
+        tmpStack->push(stack->pop());
+    }
+    stack->push(elem);
+    int size = tmpStack->size;
+    for (int i = 0; i < size; ++i)
+    {
+        stack->push(tmpStack->pop());
+    }
+    delete tmpStack;
+}
+
+void deleteInStack(CharrStack *stack, int index)
+{
+    CharrStack *tmpStack = new CharrStack();
+    for (int i = 0; i < index; ++i)
+    {
+        tmpStack->push(stack->pop());
+    }
+    stack->pop();
+    int size = tmpStack->size;
+    for (int i = 0; i < size; ++i)
+    {
+        stack->push(tmpStack->pop());
+    }
+    delete tmpStack;
+}
+
 int main()
 {
     int size;
     std::cout << "Stack size: ";
     std::cin >> size;
-    CharrStack stack = createStack(size);
+    CharrStack *stack = createStack(size);
     showStack(stack);
 
-    char* elem = new char[100];
-    std::cout << "Enter new element to add: ";
-    std::cin >> elem;
-    stack.push(elem);
+    std::cout << "Enter new element to add and its index: ";
+    char *elem = new char[100];
+    int index;
+    std::cin >> elem >> index;
+    addInStack(stack, index, elem);
+    showStack(stack);
+
+    std::cout << "Enter element index to remove: ";
+    std::cin >> index;
+    deleteInStack(stack, index);
     showStack(stack);
 
     std::cout << "Enter element to Find: ";
