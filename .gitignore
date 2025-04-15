@@ -6,3 +6,4 @@
 *.out
 *build/
 *output/
+*.gch
