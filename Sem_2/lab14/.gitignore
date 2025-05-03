@@ -1,0 +1,5 @@
+*
+!.gitignore
+!lab14*.cpp
+!lab14*.jpg
+!unsorted.txt
