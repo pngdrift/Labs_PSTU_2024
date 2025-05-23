@@ -10,3 +10,5 @@
 
 *.pro.user*
 CMakeLists.txt.user*
+
+*.odt
