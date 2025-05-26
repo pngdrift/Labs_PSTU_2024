@@ -15,33 +15,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setMinimumSize(1000, 700);
     central = new QWidget(this);
     setCentralWidget(central);
-
     graph = new Graph();
-    // граф вариант 11
-    Vertex v1, v2, v3, v4, v5, v6, v7;
-    graph->insertVertex(v1);
-    graph->insertVertex(v2);
-    graph->insertVertex(v3);
-    graph->insertVertex(v4);
-    graph->insertVertex(v5);
-    graph->insertVertex(v6);
-    graph->insertVertex(v7);
-    graph->insertEdge(v3, v6, 5);
-    graph->insertEdge(v6, v7, 19);
-    graph->insertEdge(v7, v2, 23);
-    graph->insertEdge(v2, v4, 17);
-    graph->insertEdge(v4, v1, 26);
-    graph->insertEdge(v1, v5, 9);
-    graph->insertEdge(v5, v3, 13);
-    graph->insertEdge(v5, v7, 30);
-    graph->insertEdge(v6, v4, 42);
-    graph->print();
     openGlW = new GLWidget4Graph(this, graph);
     QGridLayout *grid = new QGridLayout();
     grid->setContentsMargins(0, 3, 0, 0);
     grid->addWidget(openGlW, 0, 0);
     central->setLayout(grid);
     initMenuBar();
+
+    // initGraph11();
+    initGraphTSP();
+    graph->print();
+    bool visitedVerts[7];
+    // graph->BFS(graph->vertices[6], visitedVerts);
 }
 
 MainWindow::~MainWindow()
@@ -58,9 +44,13 @@ void MainWindow::initMenuBar()
     treeMenu->addSection("Ребро");
     treeMenu->addAction("+Добавить", this, &MainWindow::addEdge);
     treeMenu->addAction("-Удалить", this, &MainWindow::deleteEdge);
-    treeMenu->addSection("Другое");
+    treeMenu->addSection("Алгоритмы");
     treeMenu->addAction("Алгоритм Флойда", this, &MainWindow::answerBy);
-    treeMenu->addAction("Убрать все", this, &MainWindow::clearGraph);
+    treeMenu->addAction("Задача комивояжера", this, &MainWindow::answerTSP);
+    treeMenu->addSection("Заготовленные графы");
+    treeMenu->addAction("Вариант 11", this, &MainWindow::initGraph11);
+    treeMenu->addAction("Для коммивояжера", this, &MainWindow::initGraphTSP);
+    treeMenu->addAction("Пустой", this, &MainWindow::clearGraph);
     menuBar->addMenu(treeMenu);
     layout()->setMenuBar(menuBar);
 }
@@ -173,6 +163,86 @@ void MainWindow::answerBy()
     msgBox.setText("Алгоритм Флойда");
     msgBox.setInformativeText(answer);
     msgBox.exec();
+}
+
+void MainWindow::answerTSP()
+{
+    graph->print();
+    QString answer = graph->TSP();
+    QMessageBox msgBox;
+    msgBox.setText("Задача Коммивояжера");
+    msgBox.setInformativeText(answer);
+    msgBox.exec();
+}
+
+void MainWindow::initGraph11()
+{
+    clearGraph();
+    Vertex v1(1), v2, v3, v4, v5, v6, v7;
+    graph->insertVertex(v1);
+    graph->insertVertex(v2);
+    graph->insertVertex(v3);
+    graph->insertVertex(v4);
+    graph->insertVertex(v5);
+    graph->insertVertex(v6);
+    graph->insertVertex(v7);
+    graph->insertEdge(v3, v6, 5);
+    graph->insertEdge(v6, v7, 19);
+    graph->insertEdge(v7, v2, 23);
+    graph->insertEdge(v2, v4, 17);
+    graph->insertEdge(v4, v1, 26);
+    graph->insertEdge(v1, v5, 9);
+    graph->insertEdge(v5, v3, 13);
+    graph->insertEdge(v5, v7, 30);
+    graph->insertEdge(v6, v4, 42);
+}
+
+void MainWindow::initGraphTSP()
+{
+    clearGraph();
+    Vertex v1(1), v2, v3, v4, v5, v6;
+    graph->insertVertex(v1);
+    graph->insertVertex(v2);
+    graph->insertVertex(v3);
+    graph->insertVertex(v4);
+    graph->insertVertex(v5);
+    graph->insertVertex(v6);
+
+    graph->insertEdge(v1, v2, 97);
+    graph->insertEdge(v1, v3, 60);
+    graph->insertEdge(v1, v4, 73);
+    graph->insertEdge(v1, v5, 17);
+    graph->insertEdge(v1, v6, 52);
+
+    graph->insertEdge(v2, v3, 41);
+    graph->insertEdge(v2, v4, 52);
+    graph->insertEdge(v2, v5, 90);
+    graph->insertEdge(v2, v6, 30);
+
+    graph->insertEdge(v3, v4, 21);
+    graph->insertEdge(v3, v5, 35);
+    graph->insertEdge(v3, v6, 41);
+
+    graph->insertEdge(v4, v5, 95);
+    graph->insertEdge(v4, v6, 46);
+
+    graph->insertEdge(v5, v6, 81);
+
+
+    // Vertex v1(1), v2, v3, v4;
+    // graph->insertVertex(v1);
+    // graph->insertVertex(v2);
+    // graph->insertVertex(v3);
+    // graph->insertVertex(v4);
+
+    // graph->insertEdge(v1, v2, 4);
+    // graph->insertEdge(v1, v3, 4);
+    // graph->insertEdge(v1, v4, 9);
+
+    // graph->insertEdge(v2, v3, 6);
+    // graph->insertEdge(v2, v4, 2);
+
+    // graph->insertEdge(v3, v4, 3);
 }
 
 void MainWindow::clearGraph()

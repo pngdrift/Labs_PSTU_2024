@@ -21,7 +21,10 @@ class MainWindow : public QMainWindow
     void addEdge();
     void deleteEdge();
     void answerBy();
+    void answerTSP();
     void clearGraph();
+    void initGraph11();
+    void initGraphTSP();
 
   private:
     QWidget *central;

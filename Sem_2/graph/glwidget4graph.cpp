@@ -34,7 +34,7 @@ void GLWidget4Graph::draw(QPainter *painter, QPaintEvent *event, Graph *graph)
         for (int j = 0; j < vertLen; ++j)
         {
             int weight = graph->adjMatrix[i][j];
-            if (weight > 0)
+            if (weight != 0 && weight != INF)
             {
                 const Vertex &v1 = graph->vertices[i];
                 const Vertex &v2 = graph->vertices[j];
@@ -68,14 +68,15 @@ void GLWidget4Graph::mousePressEvent(QMouseEvent *event)
     int vertLen = vertices.size();
     for (int i = 0; i < vertLen; ++i)
     {
-        float dx = x - vertices[i].x;
-        float dy = y - vertices[i].y;
+        const Vertex &vertex = graph->vertices[i];
+        float dx = x - vertex.x;
+        float dy = y - vertex.y;
         if (std::sqrt(dx * dx + dy * dy) < 30)
         {
             if (event->button() == Qt::MouseButton::RightButton)
             {
                 draggingVertex = -1;
-                graph->eraseVertex(vertices[i]);
+                graph->eraseVertex(vertex);
             }
             else
             {
@@ -94,11 +95,10 @@ void GLWidget4Graph::mouseReleaseEvent(QMouseEvent *event)
 
 void GLWidget4Graph::mouseMoveEvent(QMouseEvent *event)
 {
-    int x = event->pos().x(), y = event->pos().y();
     if (draggingVertex != -1)
     {
-        graph->vertices[draggingVertex].x = x;
-        graph->vertices[draggingVertex].y = y;
+        graph->vertices[draggingVertex].x = event->pos().x();
+        graph->vertices[draggingVertex].y = event->pos().y();
         update();
     }
 }
